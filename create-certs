@@ -6,7 +6,7 @@
 set -eu
 mkdir -p output/server-certs
 
-vault write pki-int-ca/issue/server-cert-for-mydomain.com ttl=31556952 common_name="vault.mydomain.com" ip_sans="127.0.0.1" -format=json > output/server_certs.json
+vault write pki-int-ca/issue/server-cert-for-heavyslime.net ttl=31556952 common_name="vault.heavyslime.net" ip_sans="127.0.0.1" -format=json > output/server_certs.json
 
 cat output/server_certs.json | jq -r '.data.certificate' > output/server-certs/vaultcert.pem
 cat output/server_certs.json | jq -r '.data.private_key' > output/server-certs/vault_key.pem
@@ -20,10 +20,10 @@ openssl x509 -noout -text -in output/server-certs/vaultcert.pem > output/server-
 # Create Client Certs
 mkdir -p output/client-certs
 # Mount point pki-int-ca created in int.tf
-# Role client-cert-for-mydomain.com created in roles.tf
-# To help create this command line run: > vault path-help pki-int-ca/issue/client-cert-for-mydomain.com
-#vault write pki-int-ca/issue/client-cert-for-clients.mydomain.com ttl=31556952 common_name="steve.dillon@clients.mydomain.com" other_sans="1.2.840.113549.1.9.1;utf8:steve.dillon@yaponcha.com" -format=json > output/client_certs.json
-vault write pki-int-ca/issue/client-cert-for-mydomain.com ttl=31556952 common_name="steve.dillon@mydomain.com"  -format=json > output/client_certs.json
+# Role client-cert-for-heavyslime.net created in roles.tf
+# To help create this command line run: > vault path-help pki-int-ca/issue/client-cert-for-heavyslime.net
+#vault write pki-int-ca/issue/client-cert-for-clients.heavyslime.net ttl=31556952 common_name="steve.dillon@clients.heavyslime.net" other_sans="1.2.840.113549.1.9.1;utf8:steve.dillon@yaponcha.com" -format=json > output/client_certs.json
+vault write pki-int-ca/issue/client-cert-for-heavyslime.net ttl=31556952 common_name="steve.dillon@heavyslime.net"  -format=json > output/client_certs.json
 
 cat output/client_certs.json | jq -r '.data.certificate' > output/client-certs/client-cert.pem
 cat output/client_certs.json | jq -r '.data.private_key' > output/client-certs/client-key.pem
